@@ -27,7 +27,7 @@ class AddCategoryServiceTest {
         addCategoryService.addCategory(category);
 
         // Then
-        then(saveCategoryPort).should().saveCategory(category);
+        then(saveCategoryPort).should().saveCategory(category, 1L);
     }
 
 }

@@ -32,14 +32,41 @@ class CategoryPersistenceAdapterTest {
     void shouldSaveCategoryWhenNew() {
         // Given
         assertThat(postgresqlContainer.isRunning()).isTrue();
-        var newCategory = "My new category";
 
         // When
-        categoryPersistenceAdapter.saveCategory(newCategory);
+        categoryPersistenceAdapter.saveCategory("My new category", 1L);
 
         // Then
         assertThat(categoryRepository.count()).isEqualTo(1);
 
     }
+
+    @Test
+    void shouldNotPersistDuplicateCategoryPerUser() {
+        // Given
+        var newCategory = "My new category";
+        var userId = 1L;
+
+        // When
+        categoryPersistenceAdapter.saveCategory(newCategory, userId);
+        categoryPersistenceAdapter.saveCategory(newCategory, userId);
+
+        // Then
+        assertThat(categoryRepository.count()).isEqualTo(1);
+    }
+
+    @Test
+    void shouldAllowTheSameCategoryToBeSavedByDifferentUsers() {
+        // Given
+        var newCategory = "My new category";
+
+        // When
+        categoryPersistenceAdapter.saveCategory(newCategory, 1L);
+        categoryPersistenceAdapter.saveCategory(newCategory, 2L);
+
+        // Then
+        assertThat(categoryRepository.count()).isEqualTo(2);
+    }
+
 
 }

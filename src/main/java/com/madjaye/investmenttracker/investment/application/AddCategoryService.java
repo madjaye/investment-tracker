@@ -9,6 +9,6 @@ public record AddCategoryService(SaveCategoryPort saveCategoryPort) implements A
 
     @Override
     public void addCategory(String category) {
-        saveCategoryPort.saveCategory(category);
+        saveCategoryPort.saveCategory(category, 1L);
     }
 }

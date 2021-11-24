@@ -8,10 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
@@ -23,15 +21,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 class CategoryJpaEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column
-    private String name;
-
-    @Column
-    private Long ownerId;
+    @EmbeddedId
+    private CategoryId categoryId;
 
     @Column
     @CreationTimestamp

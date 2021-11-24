@@ -11,8 +11,8 @@ public class CategoryPersistenceAdapter implements SaveCategoryPort {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public void saveCategory(String category) {
-        var categoryEntity = new CategoryJpaEntity(null, category, 1L, null, null, true);
+    public void saveCategory(String category, Long userId) {
+        var categoryEntity = new CategoryJpaEntity(new CategoryId(category, userId), null, null, true);
         categoryRepository.save(categoryEntity);
     }
 }
