@@ -1,6 +1,8 @@
-package com.madjaye.investmenttracker.investment.application;
+package com.madjaye.investmenttracker.investment.application.service;
 
+import com.madjaye.investmenttracker.investment.application.port.in.AddCategoryCommand;
 import com.madjaye.investmenttracker.investment.application.port.out.SaveCategoryPort;
+import com.madjaye.investmenttracker.investment.domain.Category;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,13 +23,13 @@ class AddCategoryServiceTest {
     @Test
     void shouldPersistCategory() {
         // Given
-        var category = "New Category";
+        var addCategoryCommand = new AddCategoryCommand("New Category", 1L);
 
         // When
-        addCategoryService.addCategory(category);
+        addCategoryService.addCategory(addCategoryCommand);
 
         // Then
-        then(saveCategoryPort).should().saveCategory(category, 1L);
+        then(saveCategoryPort).should().saveCategory(new Category(addCategoryCommand.name(), addCategoryCommand.userId()));
     }
 
 }

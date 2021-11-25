@@ -1,5 +1,6 @@
 package com.madjaye.investmenttracker.investment.adapter.out;
 
+import com.madjaye.investmenttracker.investment.domain.Category;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -32,9 +33,10 @@ class CategoryPersistenceAdapterTest {
     void shouldSaveCategoryWhenNew() {
         // Given
         assertThat(postgresqlContainer.isRunning()).isTrue();
+        var category = new Category("My new category", 1L);
 
         // When
-        categoryPersistenceAdapter.saveCategory("My new category", 1L);
+        categoryPersistenceAdapter.saveCategory(category);
 
         // Then
         assertThat(categoryRepository.count()).isEqualTo(1);
@@ -44,12 +46,11 @@ class CategoryPersistenceAdapterTest {
     @Test
     void shouldNotPersistDuplicateCategoryPerUser() {
         // Given
-        var newCategory = "My new category";
-        var userId = 1L;
+        var newCategory = new Category("My new category", 1L);
 
         // When
-        categoryPersistenceAdapter.saveCategory(newCategory, userId);
-        categoryPersistenceAdapter.saveCategory(newCategory, userId);
+        categoryPersistenceAdapter.saveCategory(newCategory);
+        categoryPersistenceAdapter.saveCategory(newCategory);
 
         // Then
         assertThat(categoryRepository.count()).isEqualTo(1);
@@ -58,11 +59,13 @@ class CategoryPersistenceAdapterTest {
     @Test
     void shouldAllowTheSameCategoryToBeSavedByDifferentUsers() {
         // Given
-        var newCategory = "My new category";
+        var name = "My new category";
+        var user1Category = new Category(name, 1L);
+        var user2Category = new Category(name, 2L);
 
         // When
-        categoryPersistenceAdapter.saveCategory(newCategory, 1L);
-        categoryPersistenceAdapter.saveCategory(newCategory, 2L);
+        categoryPersistenceAdapter.saveCategory(user1Category);
+        categoryPersistenceAdapter.saveCategory(user2Category);
 
         // Then
         assertThat(categoryRepository.count()).isEqualTo(2);
