@@ -1,5 +1,7 @@
-package com.madjaye.investmenttracker.investment.adapter.out;
+package com.madjaye.investmenttracker.investment.adapter.out.persistence;
 
+import com.madjaye.investmenttracker.investment.adapter.out.persistence.CategoryId;
+import com.madjaye.investmenttracker.investment.adapter.out.persistence.CategoryJpaEntity;
 import com.madjaye.investmenttracker.investment.domain.Category;
 import org.junit.jupiter.api.Test;
 

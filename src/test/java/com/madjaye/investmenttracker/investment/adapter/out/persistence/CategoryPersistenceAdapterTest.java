@@ -1,5 +1,7 @@
-package com.madjaye.investmenttracker.investment.adapter.out;
+package com.madjaye.investmenttracker.investment.adapter.out.persistence;
 
+import com.madjaye.investmenttracker.investment.adapter.out.persistence.CategoryPersistenceAdapter;
+import com.madjaye.investmenttracker.investment.adapter.out.persistence.CategoryRepository;
 import com.madjaye.investmenttracker.investment.domain.Category;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

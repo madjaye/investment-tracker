@@ -1,4 +1,4 @@
-package com.madjaye.investmenttracker.investment.adapter.out;
+package com.madjaye.investmenttracker.investment.adapter.out.persistence;
 
 import com.madjaye.investmenttracker.investment.application.port.out.SaveCategoryPort;
 import com.madjaye.investmenttracker.investment.domain.Category;

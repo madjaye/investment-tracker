@@ -1,4 +1,4 @@
-package com.madjaye.investmenttracker.investment.adapter.out;
+package com.madjaye.investmenttracker.investment.adapter.out.persistence;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
