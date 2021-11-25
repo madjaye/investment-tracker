@@ -1,5 +1,6 @@
 package com.madjaye.investmenttracker.investment.adapter.out;
 
+import com.madjaye.investmenttracker.investment.domain.Category;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -34,4 +35,8 @@ class CategoryJpaEntity {
 
     @Column
     private Boolean active;
+
+    public static CategoryJpaEntity from(Category category) {
+        return new CategoryJpaEntity(new CategoryId(category.name(), category.userId()), null, null, true);
+    }
 }
