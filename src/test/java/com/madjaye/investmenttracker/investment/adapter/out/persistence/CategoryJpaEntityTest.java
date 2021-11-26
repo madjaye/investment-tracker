@@ -14,7 +14,7 @@ class CategoryJpaEntityTest {
         var name = "The name";
         var userId = 1L;
         var category = new Category(name, userId);
-        var expectedCategoryJpaEntity = new CategoryJpaEntity(new CategoryId(name, userId), null, null, true);
+        var expectedCategoryJpaEntity = new CategoryJpaEntity(new CategoryId(name, userId, true), null, null);
 
         // When
         var actualCategoryJpaEnity = CategoryJpaEntity.from(category);

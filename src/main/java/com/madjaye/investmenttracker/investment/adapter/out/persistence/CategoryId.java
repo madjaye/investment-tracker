@@ -17,5 +17,6 @@ class CategoryId implements Serializable {
 
     private String name;
     private Long userId;
+    private Boolean active;
 
 }

@@ -48,13 +48,29 @@ class CategoryPersistenceAdapterTest {
     @Test
     void shouldNotPersistDuplicateCategoryPerUser() {
         // Given
-        var newCategory = new Category("My new category", 1L);
-        categoryRepository.saveAndFlush(CategoryJpaEntity.from(newCategory));
+        var duplicateCategory = new Category("My new category", 1L);
+        categoryRepository.saveAndFlush(CategoryJpaEntity.from(duplicateCategory));
 
         // When / Then
-        assertThatThrownBy(() -> categoryPersistenceAdapter.saveCategory(newCategory))
+        assertThatThrownBy(() -> categoryPersistenceAdapter.saveCategory(duplicateCategory))
             .isInstanceOf(DataIntegrityViolationException.class);
         assertThat(categoryRepository.count()).isEqualTo(1);
+    }
+
+    @Test
+    void shouldSaveCategoryIfCategoryExistsButIsDeactivated() {
+        // Given
+        var category = new Category("My category", 1L);
+        var inactiveCategoryJpaEntity = new CategoryJpaEntity(new CategoryId(category.name(), category.userId(), false), null, null);
+        categoryRepository.saveAndFlush(inactiveCategoryJpaEntity);
+
+        // When
+        categoryPersistenceAdapter.saveCategory(category);
+
+        // Then
+        assertThat(categoryRepository.count()).isEqualTo(2);
+        assertThat(categoryRepository.findById(new CategoryId(category.name(), category.userId(), true))).isPresent();
+
     }
 
     @Test

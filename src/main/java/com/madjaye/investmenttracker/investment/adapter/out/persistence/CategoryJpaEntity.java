@@ -33,11 +33,8 @@ class CategoryJpaEntity extends ManuallyIdentifiedEntity<CategoryId>{
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Column
-    private Boolean active;
-
     public static CategoryJpaEntity from(Category category) {
-        return new CategoryJpaEntity(new CategoryId(category.name(), category.userId()), null, null, true);
+        return new CategoryJpaEntity(new CategoryId(category.name(), category.userId(), true), null, null);
     }
 
     @Override
