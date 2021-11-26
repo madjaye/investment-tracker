@@ -17,10 +17,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "category")
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper=true)
 @AllArgsConstructor
 @NoArgsConstructor
-class CategoryJpaEntity {
+class CategoryJpaEntity extends ManuallyIdentifiedEntity<CategoryId>{
 
     @EmbeddedId
     private CategoryId categoryId;
@@ -38,5 +38,10 @@ class CategoryJpaEntity {
 
     public static CategoryJpaEntity from(Category category) {
         return new CategoryJpaEntity(new CategoryId(category.name(), category.userId()), null, null, true);
+    }
+
+    @Override
+    public CategoryId getId() {
+        return categoryId;
     }
 }
