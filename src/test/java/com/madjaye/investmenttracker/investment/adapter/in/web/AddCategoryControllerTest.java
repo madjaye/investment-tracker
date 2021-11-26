@@ -32,7 +32,7 @@ class AddCategoryControllerTest {
         mockMvc.perform(post("/category/{category}/user/{userId}",
             name, userId)
             .header("Content-Type", "application/json"))
-            .andExpect(status().isOk());
+            .andExpect(status().isCreated());
 
         // Then
         then(addCategoryUseCase).should().addCategory(addCategoryCommand);
