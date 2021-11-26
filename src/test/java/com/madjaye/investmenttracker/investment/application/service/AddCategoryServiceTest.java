@@ -8,8 +8,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willThrow;
 
 @ExtendWith(MockitoExtension.class)
 class AddCategoryServiceTest {
@@ -30,6 +33,20 @@ class AddCategoryServiceTest {
 
         // Then
         then(saveCategoryPort).should().saveCategory(new Category(addCategoryCommand.name(), addCategoryCommand.userId()));
+    }
+
+    @Test
+    void shouldThrowABusinessExceptionWhenCategoryAlreadyExists() {
+        // Given
+        var addCategoryCommand = new AddCategoryCommand("Duplicate Category", 1L);
+        willThrow(DataIntegrityViolationException.class)
+            .given(saveCategoryPort).saveCategory(new Category(addCategoryCommand.name(), addCategoryCommand.userId()));
+
+        // When / Then
+        assertThatThrownBy(() -> addCategoryService.addCategory(addCategoryCommand))
+            .isInstanceOf(BusinessException.class)
+            .hasMessage("Category '%s' already exists", addCategoryCommand.name());
+
     }
 
 }
