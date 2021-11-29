@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 record AddCategoryController(AddCategoryUseCase addCategoryUseCase) {
@@ -15,14 +16,12 @@ record AddCategoryController(AddCategoryUseCase addCategoryUseCase) {
     @PostMapping(path = "/category/{category}/user/{userId}")
     ResponseEntity<Object> addCategory(@PathVariable("category") String category, @PathVariable("userId") Long userId) {
         var addCategoryCommand = new AddCategoryCommand(category, userId);
-        HttpStatus httpStatus;
         try {
             addCategoryUseCase.addCategory(addCategoryCommand);
-            httpStatus = HttpStatus.CREATED;
         } catch (BusinessException e) {
-            httpStatus = HttpStatus.CONFLICT;
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
         }
-        return ResponseEntity.status(httpStatus).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 }
