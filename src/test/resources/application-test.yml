@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:tc:postgresql:14:///compose-postgres
+    url: jdbc:tc:postgresql:14:///investment-tracker
     username: postgres
     password: postgres
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
