@@ -15,7 +15,7 @@ public record AddCategoryService(SaveCategoryPort saveCategoryPort) implements A
         var category = new Category(addCategoryCommand.name(), addCategoryCommand.userId());
         try {
             saveCategoryPort.saveCategory(category);
-        } catch(DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new BusinessException(category);
         }
     }

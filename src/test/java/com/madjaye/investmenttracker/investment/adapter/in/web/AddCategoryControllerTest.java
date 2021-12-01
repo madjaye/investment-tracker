@@ -1,5 +1,11 @@
 package com.madjaye.investmenttracker.investment.adapter.in.web;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willThrow;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.madjaye.investmenttracker.investment.application.port.in.AddCategoryCommand;
 import com.madjaye.investmenttracker.investment.application.port.in.AddCategoryUseCase;
 import com.madjaye.investmenttracker.investment.application.service.BusinessException;
@@ -10,12 +16,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.then;
-import static org.mockito.BDDMockito.willThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = AddCategoryController.class)
 class AddCategoryControllerTest {
@@ -37,7 +37,7 @@ class AddCategoryControllerTest {
         mockMvc.perform(post("/category/{category}/user/{userId}", name, userId)
             .header("Content-Type", "application/json"))
 
-        // Then
+            // Then
             .andExpect(status().isCreated());
         then(addCategoryUseCase).should().addCategory(addCategoryCommand);
     }
@@ -56,10 +56,12 @@ class AddCategoryControllerTest {
         mockMvc.perform(post("/category/{category}/user/{userId}", name, userId)
             .header("Content-Type", "application/json"))
 
-        // Then
+            // Then
             .andExpect(status().isConflict())
-            .andExpect(response -> assertThat(response.getResolvedException() instanceof ResponseStatusException).isTrue())
-            .andExpect(response -> assertThat("Category '" + name + "' already exists").isEqualTo(response.getResponse().getErrorMessage()));
+            .andExpect(
+                response -> assertThat(response.getResolvedException() instanceof ResponseStatusException).isTrue())
+            .andExpect(response -> assertThat("Category '" + name + "' already exists")
+                .isEqualTo(response.getResponse().getErrorMessage()));
     }
 
 }

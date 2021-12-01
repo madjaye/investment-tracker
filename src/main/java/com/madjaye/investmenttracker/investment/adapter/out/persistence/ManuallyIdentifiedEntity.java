@@ -1,16 +1,15 @@
 package com.madjaye.investmenttracker.investment.adapter.out.persistence;
 
-import lombok.EqualsAndHashCode;
-import org.springframework.data.domain.Persistable;
-
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
+import lombok.EqualsAndHashCode;
+import org.springframework.data.domain.Persistable;
 
 @MappedSuperclass
 @EqualsAndHashCode
-abstract class ManuallyIdentifiedEntity<ID> implements Persistable<ID> {
+abstract class ManuallyIdentifiedEntity<I> implements Persistable<I> {
 
     @Transient
     private boolean isNew = true;

@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class InvestmentTrackerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(InvestmentTrackerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(InvestmentTrackerApplication.class, args);
+    }
 
 
 }

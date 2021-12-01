@@ -1,5 +1,8 @@
 package com.madjaye.investmenttracker.investment.adapter.out.persistence;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.madjaye.investmenttracker.investment.domain.Category;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +14,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
 @DataJpaTest
@@ -61,7 +61,8 @@ class CategoryPersistenceAdapterTest {
     void shouldSaveCategoryIfCategoryExistsButIsDeactivated() {
         // Given
         var category = new Category("My category", 1L);
-        var inactiveCategoryJpaEntity = new CategoryJpaEntity(new CategoryId(category.name(), category.userId(), false), null, null);
+        var inactiveCategoryJpaEntity =
+            new CategoryJpaEntity(new CategoryId(category.name(), category.userId(), false), null, null);
         categoryRepository.saveAndFlush(inactiveCategoryJpaEntity);
 
         // When
@@ -87,6 +88,5 @@ class CategoryPersistenceAdapterTest {
         // Then
         assertThat(categoryRepository.count()).isEqualTo(2);
     }
-
 
 }

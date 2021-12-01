@@ -1,9 +1,9 @@
 package com.madjaye.investmenttracker.investment.adapter.out.persistence;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.madjaye.investmenttracker.investment.domain.Category;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class CategoryJpaEntityTest {
 

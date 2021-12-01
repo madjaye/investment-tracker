@@ -1,9 +1,10 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.0'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
-	id 'com.avast.gradle.docker-compose' version '0.14.9'
-	id 'org.flywaydb.flyway' version '8.0.5'
+    id 'org.springframework.boot' version '2.6.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'com.avast.gradle.docker-compose' version '0.14.9'
+    id 'org.flywaydb.flyway' version '8.0.5'
+    id 'checkstyle'
 }
 
 group = 'com.madjaye'
@@ -11,51 +12,55 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 flyway {
-	configFiles = ['flyway.conf']
+    configFiles = ['flyway.conf']
+}
+
+checkstyle {
+    toolVersion = '8.45'
 }
 
 dependencies {
-	// spring boot starters
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // spring boot starters
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	implementation 'org.projectlombok:lombok:1.18.18'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.projectlombok:lombok:1.18.18'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
-	runtimeOnly 'org.postgresql:postgresql'
-	implementation 'org.flywaydb:flyway-core'
-	implementation 'org.springdoc:springdoc-openapi-ui:1.5.12'
+    runtimeOnly 'org.postgresql:postgresql'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.5.12'
 
-	implementation platform('org.testcontainers:testcontainers-bom:1.16.2') //import bom
-	testImplementation 'org.testcontainers:postgresql'
-	testImplementation 'org.testcontainers:junit-jupiter'
+    implementation platform('org.testcontainers:testcontainers-bom:1.16.2') //import bom
+    testImplementation 'org.testcontainers:postgresql'
+    testImplementation 'org.testcontainers:junit-jupiter'
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 task deployLocal {
-	group 'deploy'
-	description 'Builds app as a jar, dockerizes app, composes down and then up'
-	dependsOn('copyLibs')
+    group 'deploy'
+    description 'Builds app as a jar, dockerizes app, composes down and then up'
+    dependsOn('copyLibs')
 }
 
 tasks.register('copyLibs', Copy) {
-	from layout.buildDirectory.dir("libs/investment-tracker-0.0.1-SNAPSHOT.jar")
-	into layout.projectDirectory.dir("src/main/docker")
-	dependsOn(bootJar)
+    from layout.buildDirectory.dir("libs/investment-tracker-0.0.1-SNAPSHOT.jar")
+    into layout.projectDirectory.dir("src/main/docker")
+    dependsOn(bootJar)
 }
