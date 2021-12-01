@@ -36,7 +36,7 @@ flyway.password=myspecialpasswordwhoop
 
 To run tests: `./gradlew test`
 
-To run tests + checkstyle: `gradlew check`
+To run tests + checkstyle: `./gradlew check`
 
 ## Build and deploy locally
 
