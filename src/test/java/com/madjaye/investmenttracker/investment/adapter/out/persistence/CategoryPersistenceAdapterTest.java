@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.madjaye.investmenttracker.investment.domain.Category;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -87,6 +88,21 @@ class CategoryPersistenceAdapterTest {
 
         // Then
         assertThat(categoryRepository.count()).isEqualTo(2);
+    }
+
+    @Test
+    void shouldGetAllCategoriesForAllUsers() {
+        // Given
+        var firstCategory = new Category("The First Cat", 1L);
+        var secondCategory = new Category("The Second Cat", 2L);
+        categoryRepository.saveAndFlush(CategoryJpaEntity.from(firstCategory));
+        categoryRepository.saveAndFlush(CategoryJpaEntity.from(secondCategory));
+
+        // When
+        var actualCategories = categoryPersistenceAdapter.getAllCategories();
+
+        // Then
+        assertThat(actualCategories).isEqualTo(List.of(firstCategory, secondCategory));
     }
 
 }

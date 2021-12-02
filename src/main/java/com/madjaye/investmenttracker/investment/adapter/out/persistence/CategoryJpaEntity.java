@@ -40,4 +40,12 @@ class CategoryJpaEntity extends ManuallyIdentifiedEntity<CategoryId> {
     public CategoryId getId() {
         return categoryId;
     }
+
+    public String getName() {
+        return categoryId.getName();
+    }
+
+    public Long getUserId() {
+        return categoryId.getUserId();
+    }
 }
