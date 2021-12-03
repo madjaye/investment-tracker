@@ -6,21 +6,21 @@ import com.madjaye.investmenttracker.investment.domain.Category;
 import org.junit.jupiter.api.Test;
 
 class CategoryJpaEntityTest {
-
-
+    
     @Test
     void shouldConvertCategoryToCategoryJpaEntity() {
         // Given
         var name = "The name";
         var userId = 1L;
         var category = new Category(name, userId);
-        var expectedCategoryJpaEntity = new CategoryJpaEntity(new CategoryId(name, userId, true), null, null);
+        var expectedCategoryJpaEntity =
+            CategoryJpaEntityFactory.createForCategoryId(new CategoryId(name, userId, true));
 
         // When
-        var actualCategoryJpaEnity = CategoryJpaEntity.from(category);
+        var actualCategoryJpaEntity = CategoryJpaEntity.from(category);
 
         // Then
-        assertThat(actualCategoryJpaEnity).isEqualTo(expectedCategoryJpaEntity);
+        assertThat(actualCategoryJpaEntity).isEqualTo(expectedCategoryJpaEntity);
 
     }
 

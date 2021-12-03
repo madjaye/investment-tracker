@@ -62,8 +62,7 @@ class CategoryPersistenceAdapterTest {
     void shouldSaveCategoryIfCategoryExistsButIsDeactivated() {
         // Given
         var category = new Category("My category", 1L);
-        var inactiveCategoryJpaEntity =
-            new CategoryJpaEntity(new CategoryId(category.name(), category.userId(), false), null, null);
+        var inactiveCategoryJpaEntity = CategoryJpaEntityFactory.createInactiveForCategory(category);
         categoryRepository.saveAndFlush(inactiveCategoryJpaEntity);
 
         // When
@@ -95,8 +94,8 @@ class CategoryPersistenceAdapterTest {
         // Given
         var firstCategory = new Category("The First Cat", 1L);
         var secondCategory = new Category("The Second Cat", 2L);
-        var inactiveCategoryJpaEntity =
-            new CategoryJpaEntity(new CategoryId("The Inactive Category", 1L, false), null, null);
+        var inactiveCategoryJpaEntity = CategoryJpaEntityFactory.createInactive();
+ 
         categoryRepository.saveAndFlush(CategoryJpaEntity.from(firstCategory));
         categoryRepository.saveAndFlush(CategoryJpaEntity.from(secondCategory));
         categoryRepository.saveAndFlush(inactiveCategoryJpaEntity);
