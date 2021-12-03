@@ -11,15 +11,28 @@ class CategoryJpaEntityFactory {
             .build();
     }
 
-    static CategoryJpaEntity createInactive() {
+    static CategoryJpaEntity createInactiveForUserId(Long userId) {
         return new CategoryJpaEntityBuilder()
             .withActive(false)
+            .withUserId(userId)
+            .build();
+    }
+
+    static CategoryJpaEntity createForUserId(Long userId) {
+        return new CategoryJpaEntityBuilder()
+            .withUserId(userId)
             .build();
     }
 
     static CategoryJpaEntity createForCategoryId(CategoryId categoryId) {
         return new CategoryJpaEntityBuilder()
             .withCategoryId(categoryId)
+            .build();
+    }
+
+    static CategoryJpaEntity createForCategory(Category category) {
+        return new CategoryJpaEntityBuilder()
+            .withCategory(category)
             .build();
     }
 

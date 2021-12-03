@@ -90,20 +90,19 @@ class CategoryPersistenceAdapterTest {
     }
 
     @Test
-    void shouldGetAllActiveCategoriesForAllUsers() {
+    void shouldGetAllActiveCategoriesForUserId() {
         // Given
-        var firstCategory = CategoryFactory.createForUserId(1L);
-        var secondCategory = CategoryFactory.createForUserId(2L);
+        var activeCategoryForUser1 = CategoryFactory.createForUserId(1L);
 
-        categoryRepository.saveAndFlush(CategoryJpaEntity.from(firstCategory));
-        categoryRepository.saveAndFlush(CategoryJpaEntity.from(secondCategory));
-        categoryRepository.saveAndFlush(CategoryJpaEntityFactory.createInactive());
+        categoryRepository.saveAndFlush(CategoryJpaEntityFactory.createForCategory(activeCategoryForUser1));
+        categoryRepository.saveAndFlush(CategoryJpaEntityFactory.createInactiveForUserId(1L));
+        categoryRepository.saveAndFlush(CategoryJpaEntityFactory.createForUserId(2L));
 
         // When
-        var actualCategories = categoryPersistenceAdapter.getAllActiveCategories();
+        var actualCategories = categoryPersistenceAdapter.getAllActiveCategoriesForUser(1L);
 
         // Then
-        assertThat(actualCategories).isEqualTo(List.of(firstCategory, secondCategory));
+        assertThat(actualCategories).isEqualTo(List.of(activeCategoryForUser1));
     }
 
 }

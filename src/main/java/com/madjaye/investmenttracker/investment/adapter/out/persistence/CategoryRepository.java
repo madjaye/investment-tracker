@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 interface CategoryRepository extends JpaRepository<CategoryJpaEntity, CategoryId> {
 
-    List<CategoryJpaEntity> findByIdActive(boolean isActive);
+    List<CategoryJpaEntity> findByIdActiveAndIdUserId(boolean isActive, Long userId);
 
 }
