@@ -22,7 +22,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 class CategoryJpaEntity extends ManuallyIdentifiedEntity<CategoryId> {
 
     @EmbeddedId
-    private CategoryId categoryId;
+    private CategoryId id;
 
     @Column
     @CreationTimestamp
@@ -38,14 +38,14 @@ class CategoryJpaEntity extends ManuallyIdentifiedEntity<CategoryId> {
 
     @Override
     public CategoryId getId() {
-        return categoryId;
+        return id;
     }
 
     public String getName() {
-        return categoryId.getName();
+        return id.getName();
     }
 
     public Long getUserId() {
-        return categoryId.getUserId();
+        return id.getUserId();
     }
 }

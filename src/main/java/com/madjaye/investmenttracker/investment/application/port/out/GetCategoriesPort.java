@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface GetCategoriesPort {
 
-    List<Category> getAllCategories();
+    List<Category> getAllActiveCategories();
 
 }

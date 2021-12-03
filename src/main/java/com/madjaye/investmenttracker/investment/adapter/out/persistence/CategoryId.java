@@ -13,11 +13,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
+@Getter
 class CategoryId implements Serializable {
 
-    @Getter
     private String name;
-    @Getter
     private Long userId;
     private Boolean active;
 

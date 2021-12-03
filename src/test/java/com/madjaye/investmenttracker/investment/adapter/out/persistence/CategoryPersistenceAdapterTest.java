@@ -91,15 +91,18 @@ class CategoryPersistenceAdapterTest {
     }
 
     @Test
-    void shouldGetAllCategoriesForAllUsers() {
+    void shouldGetAllActiveCategoriesForAllUsers() {
         // Given
         var firstCategory = new Category("The First Cat", 1L);
         var secondCategory = new Category("The Second Cat", 2L);
+        var inactiveCategoryJpaEntity =
+            new CategoryJpaEntity(new CategoryId("The Inactive Category", 1L, false), null, null);
         categoryRepository.saveAndFlush(CategoryJpaEntity.from(firstCategory));
         categoryRepository.saveAndFlush(CategoryJpaEntity.from(secondCategory));
+        categoryRepository.saveAndFlush(inactiveCategoryJpaEntity);
 
         // When
-        var actualCategories = categoryPersistenceAdapter.getAllCategories();
+        var actualCategories = categoryPersistenceAdapter.getAllActiveCategories();
 
         // Then
         assertThat(actualCategories).isEqualTo(List.of(firstCategory, secondCategory));

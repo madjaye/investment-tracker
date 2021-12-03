@@ -22,8 +22,8 @@ public class CategoryPersistenceAdapter implements SaveCategoryPort, GetCategori
     }
 
     @Override
-    public List<Category> getAllCategories() {
-        var categoryJpaEntities = categoryRepository.findAll();
+    public List<Category> getAllActiveCategories() {
+        var categoryJpaEntities = categoryRepository.findByIdActive(true);
         return categoryJpaEntities.stream().map(this::toCategory).collect(toList());
     }
 
