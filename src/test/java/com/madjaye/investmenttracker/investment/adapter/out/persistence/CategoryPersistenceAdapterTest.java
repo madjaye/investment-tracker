@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.madjaye.investmenttracker.investment.domain.Category;
+import com.madjaye.investmenttracker.investment.domain.CategoryFactory;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ class CategoryPersistenceAdapterTest {
     @Test
     void shouldNotPersistDuplicateCategoryPerUser() {
         // Given
-        var duplicateCategory = new Category("My new category", 1L);
+        var duplicateCategory = CategoryFactory.create();
         categoryRepository.saveAndFlush(CategoryJpaEntity.from(duplicateCategory));
 
         // When / Then
@@ -61,7 +62,7 @@ class CategoryPersistenceAdapterTest {
     @Test
     void shouldSaveCategoryIfCategoryExistsButIsDeactivated() {
         // Given
-        var category = new Category("My category", 1L);
+        var category = CategoryFactory.create();
         var inactiveCategoryJpaEntity = CategoryJpaEntityFactory.createInactiveForCategory(category);
         categoryRepository.saveAndFlush(inactiveCategoryJpaEntity);
 
@@ -77,9 +78,8 @@ class CategoryPersistenceAdapterTest {
     @Test
     void shouldAllowTheSameCategoryToBeSavedByDifferentUsers() {
         // Given
-        var name = "My matching category";
-        var user1Category = new Category(name, 1L);
-        var user2Category = new Category(name, 2L);
+        var user1Category = CategoryFactory.createForUserId(1L);
+        var user2Category = CategoryFactory.createForUserId(2L);
         categoryRepository.saveAndFlush(CategoryJpaEntity.from(user1Category));
 
         // When
@@ -92,13 +92,12 @@ class CategoryPersistenceAdapterTest {
     @Test
     void shouldGetAllActiveCategoriesForAllUsers() {
         // Given
-        var firstCategory = new Category("The First Cat", 1L);
-        var secondCategory = new Category("The Second Cat", 2L);
-        var inactiveCategoryJpaEntity = CategoryJpaEntityFactory.createInactive();
- 
+        var firstCategory = CategoryFactory.createForUserId(1L);
+        var secondCategory = CategoryFactory.createForUserId(2L);
+
         categoryRepository.saveAndFlush(CategoryJpaEntity.from(firstCategory));
         categoryRepository.saveAndFlush(CategoryJpaEntity.from(secondCategory));
-        categoryRepository.saveAndFlush(inactiveCategoryJpaEntity);
+        categoryRepository.saveAndFlush(CategoryJpaEntityFactory.createInactive());
 
         // When
         var actualCategories = categoryPersistenceAdapter.getAllActiveCategories();
