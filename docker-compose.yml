@@ -12,7 +12,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/investment-tracker
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
     ports:
       - '8080:8080'
 
