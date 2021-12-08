@@ -5,6 +5,8 @@ plugins {
     id 'com.avast.gradle.docker-compose' version '0.14.9'
     id 'org.flywaydb.flyway' version '8.0.5'
     id 'checkstyle'
+    id 'org.sonarqube' version '3.3'
+    id 'jacoco'
 }
 
 group = 'com.madjaye'
@@ -63,4 +65,21 @@ tasks.register('copyLibs', Copy) {
     from layout.buildDirectory.dir("libs/investment-tracker-0.0.1-SNAPSHOT.jar")
     into layout.projectDirectory.dir("src/main/docker")
     dependsOn(bootJar)
+}
+
+sonarqube {
+    properties {
+        property 'sonar.host.url', 'http://localhost:9000'
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+test.finalizedBy jacocoTestReport
+
+tasks.named('sonarqube').configure {
+    dependsOn test
 }

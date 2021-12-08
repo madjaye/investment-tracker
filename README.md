@@ -48,7 +48,27 @@ Run the following command to build, containerise and run the app (and database) 
 
 This will set up the app to run on http://localhost:8080.
 
+It will also run Sonarqube on http://localhost:9000.
+
 ## Swagger
 
 Once the app is running locally, you may visit http://localhost:8080/swagger-ui.html to see the swagger API
 documentation.
+
+## Sonarqube
+
+You can run `./gradlew cU` to get Sonarqube to run at http://localhost:9000 via docker-compose. Once up and running
+visit the url and create a new project. Define a project name e.g. `Investment Tracker`. This will automatically
+populate for you a project key e.g. `Investment-Tracker`. Then generate a login token.
+
+You should then set your global gradle properties accordingly:
+
+`~/.gradle/gradle.properties`:
+
+```shell
+systemProp.sonar.projectKey=Investment-Tracker
+systemProp.sonar.login=yourlogintokengoeshere
+```
+
+You can then run `./gradlew sonarqube` to run static code analysis. Once complete the SonarQube UI will update with the
+results.

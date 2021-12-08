@@ -14,7 +14,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
-    - '8080:8080'
+      - '8080:8080'
 
   db:
     image: 'postgres:14.0'
@@ -24,4 +24,12 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=investment-tracker
     ports:
-    - '5432:5432'
+      - '5432:5432'
+
+  sonarqube:
+    image: 'sonarqube:latest'
+    container_name: sonarqube
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    ports:
+      - '9000:9000'
