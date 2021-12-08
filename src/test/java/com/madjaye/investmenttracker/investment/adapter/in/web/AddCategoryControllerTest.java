@@ -59,7 +59,7 @@ class AddCategoryControllerTest {
             // Then
             .andExpect(status().isConflict())
             .andExpect(
-                response -> assertThat(response.getResolvedException() instanceof ResponseStatusException).isTrue())
+                response -> assertThat(response.getResolvedException()).isInstanceOf(ResponseStatusException.class))
             .andExpect(response -> assertThat("Category '" + name + "' already exists")
                 .isEqualTo(response.getResponse().getErrorMessage()));
     }

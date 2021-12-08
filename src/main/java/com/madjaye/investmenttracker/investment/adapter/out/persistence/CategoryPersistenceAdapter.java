@@ -1,7 +1,5 @@
 package com.madjaye.investmenttracker.investment.adapter.out.persistence;
 
-import static java.util.stream.Collectors.toList;
-
 import com.madjaye.investmenttracker.investment.application.port.out.GetCategoriesPort;
 import com.madjaye.investmenttracker.investment.application.port.out.SaveCategoryPort;
 import com.madjaye.investmenttracker.investment.domain.Category;
@@ -24,7 +22,7 @@ public class CategoryPersistenceAdapter implements SaveCategoryPort, GetCategori
     @Override
     public List<Category> getAllActiveCategoriesForUser(Long userId) {
         var categoryJpaEntities = categoryRepository.findByIdActiveAndIdUserId(true, userId);
-        return categoryJpaEntities.stream().map(this::toCategory).collect(toList());
+        return categoryJpaEntities.stream().map(this::toCategory).toList();
     }
 
     private Category toCategory(CategoryJpaEntity categoryJpaEntity) {
