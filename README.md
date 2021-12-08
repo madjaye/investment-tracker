@@ -40,10 +40,10 @@ To run tests + checkstyle: `./gradlew check`
 
 ## Build and deploy locally
 
-Run the following command to build, containerise and run the app (and database) locally:
+Run the following command to build, containerise and run the app (and database and sonarqube) locally:
 
 ```shell
-./gradlew clean deployLocal && ./gradlew cU
+./gradlew deployLocal
 ```
 
 This will set up the app to run on http://localhost:8080.

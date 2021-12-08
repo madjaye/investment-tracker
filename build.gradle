@@ -55,16 +55,21 @@ test {
     useJUnitPlatform()
 }
 
-task deployLocal {
-    group 'deploy'
-    description 'Builds app as a jar, dockerizes app, composes down and then up'
-    dependsOn('copyLibs')
+tasks.register('copyLibs', Copy) {
+    from layout.buildDirectory.dir('libs/investment-tracker-0.0.1-SNAPSHOT.jar')
+    into layout.projectDirectory.dir('src/main/docker')
 }
 
-tasks.register('copyLibs', Copy) {
-    from layout.buildDirectory.dir("libs/investment-tracker-0.0.1-SNAPSHOT.jar")
-    into layout.projectDirectory.dir("src/main/docker")
-    dependsOn(bootJar)
+task deployLocal {
+    group 'deploy'
+    description 'Builds app as a jar, dockerizes app and then composes up'
+    dependsOn('clean')
+    dependsOn('bootJar')
+    dependsOn('copyLibs')
+    dependsOn('composeUp')
+    tasks.findByName('bootJar').mustRunAfter('clean')
+    tasks.findByName('copyLibs').mustRunAfter('bootJar')
+    tasks.findByName('composeUp').mustRunAfter('copyLibs')
 }
 
 sonarqube {
