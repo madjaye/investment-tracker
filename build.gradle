@@ -60,16 +60,12 @@ tasks.register('copyLibs', Copy) {
     into layout.projectDirectory.dir('src/main/docker')
 }
 
-task deployLocal {
+task deployLocal(dependsOn: ['clean', 'bootJar', 'copyLibs', 'composeUp']) {
     group 'deploy'
     description 'Builds app as a jar, dockerizes app and then composes up'
-    dependsOn('clean')
-    dependsOn('bootJar')
-    dependsOn('copyLibs')
-    dependsOn('composeUp')
-    tasks.findByName('bootJar').mustRunAfter('clean')
-    tasks.findByName('copyLibs').mustRunAfter('bootJar')
-    tasks.findByName('composeUp').mustRunAfter('copyLibs')
+    tasks.findByName('bootJar').mustRunAfter 'clean'
+    tasks.findByName('copyLibs').mustRunAfter 'bootJar'
+    tasks.findByName('composeUp').mustRunAfter 'copyLibs'
 }
 
 sonarqube {
