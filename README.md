@@ -38,6 +38,8 @@ To run tests: `./gradlew test`
 
 To run tests + checkstyle: `./gradlew check`
 
+To run tests + code coverage + static code analysis with sonarqube: `./gradlew sonarqube`
+
 ## Build and deploy locally
 
 Run the following command to build, containerise and run the app (and database and sonarqube) locally:
